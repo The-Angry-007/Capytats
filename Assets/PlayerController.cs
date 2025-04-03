@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //how many tiles the player can move in a second
     public float moveSpeed;
     //deals with physics (collisions with pens, etc)
     public Rigidbody2D rb;
