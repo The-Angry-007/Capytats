@@ -46,11 +46,11 @@ public class Inventory : MonoBehaviour
     void InitInventory(){
         Transform parent = invGUI.transform.GetChild(0).transform;
         //essentially the same as the init hotbar function, but creates a grid of slots
-        for (int i = 0; i < invSize.x; i ++){
-            for (int j = 0; j < invSize.y; j ++){
+        for (int i = 0; i < invSize.y; i ++){
+            for (int j = 0; j < invSize.x; j ++){
                 GameObject g = Instantiate(invSlotPrefab,parent);
                 Vector3 pos = new Vector3(-(invSize.x-1) * (slotSize) / 2f,(invSize.y-1) * (slotSize) / 2f);
-                pos += new Vector3(slotSize * i,-slotSize * j);
+                pos += new Vector3(slotSize * j,-slotSize * i);
                 g.GetComponent<RectTransform>().localPosition = pos;
             }
         }
@@ -65,19 +65,39 @@ public class Inventory : MonoBehaviour
         hotbarGUI.SetActive(true);
         invOpen = false;
     }
-    void UpdateHotbar(){
+    void UpdateInventory(){
+        //essentially same as update hotbar function
         for (int i = 0; i < invSize.x; i ++){
+            for (int j = 0; j < invSize.y; j ++){
             //get image component of inv slot
-            RawImage im = hotbarGUI.transform.GetChild(i).GetComponent<RawImage>();
+            RawImage im = invGUI.transform.GetChild(0).GetChild(i + j * invSize.x).GetComponent<RawImage>();
             //if slot has nothing in it, disable image
-            if (items[i,0].typeID == -1){
+            if (items[i,j].typeID == -1){
                 im.enabled = false;
                 im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "";  
             }else{
                 //otherwise, set correct texture and update text label
                 im.enabled = true;
-                im.texture = ItemManager.itemTextures[items[i,0].typeID];
-                im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = items[i,0].amount.ToString();
+                im.texture = ItemManager.itemTextures[items[i,j].typeID];
+                im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = items[i,j].amount.ToString();
+            }
+            }
+            
+        }
+    }
+    void UpdateHotbar(){
+        for (int i = 0; i < invSize.x; i ++){
+            //get image component of inv slot
+            RawImage im = hotbarGUI.transform.GetChild(i).GetComponent<RawImage>();
+            //if slot has nothing in it, disable image
+            if (items[i,invSize.y-1].typeID == -1){
+                im.enabled = false;
+                im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "";  
+            }else{
+                //otherwise, set correct texture and update text label
+                im.enabled = true;
+                im.texture = ItemManager.itemTextures[items[i,invSize.y-1].typeID];
+                im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = items[i,invSize.y-1].amount.ToString();
             }
         }
     }
@@ -93,7 +113,7 @@ public class Inventory : MonoBehaviour
             }
         }
         if (invOpen){
-            //update inventory here
+            UpdateInventory();
         }
     }
 }
