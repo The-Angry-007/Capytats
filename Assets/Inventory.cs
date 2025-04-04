@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
     public GameObject hotbarGUI;
     public GameObject invSlotPrefab;
     public float slotSize = 100f;
+    public bool invOpen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +24,7 @@ public class Inventory : MonoBehaviour
         items[1,0] = new Item(1,10);
         InitHotbar();
         UpdateHotbar();
+        InitInventory();
 
     }
     void InitHotbar(){
@@ -40,6 +42,28 @@ public class Inventory : MonoBehaviour
             //move slots by interpolating between leftmost and rightmost positions
             g.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Lerp(-width/2f,width/2f,i/(invSize.x-1f)),0,0);
         }
+    }
+    void InitInventory(){
+        Transform parent = invGUI.transform.GetChild(0).transform;
+        //essentially the same as the init hotbar function, but creates a grid of slots
+        for (int i = 0; i < invSize.x; i ++){
+            for (int j = 0; j < invSize.y; j ++){
+                GameObject g = Instantiate(invSlotPrefab,parent);
+                Vector3 pos = new Vector3(-(invSize.x-1) * (slotSize) / 2f,(invSize.y-1) * (slotSize) / 2f);
+                pos += new Vector3(slotSize * i,-slotSize * j);
+                g.GetComponent<RectTransform>().localPosition = pos;
+            }
+        }
+    }
+    void OpenInventory(){
+        invGUI.SetActive(true);
+        hotbarGUI.SetActive(false);
+        invOpen = true;
+    }
+    void CloseInventory(){
+        invGUI.SetActive(false);
+        hotbarGUI.SetActive(true);
+        invOpen = false;
     }
     void UpdateHotbar(){
         for (int i = 0; i < invSize.x; i ++){
@@ -61,5 +85,15 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         UpdateHotbar();
+        if (Input.GetKeyDown(KeyCode.E)){
+            if (invOpen){
+                CloseInventory();
+            }else{
+                OpenInventory();
+            }
+        }
+        if (invOpen){
+            //update inventory here
+        }
     }
 }
