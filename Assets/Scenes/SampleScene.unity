@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.76729554, g: 0.76729554, b: 0.76729554, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -519,9 +519,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba756abf41f3a5498b2d53bebba67c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invSize: {x: 0, y: 0}
+  invSize: {x: 8, y: 1}
   invGUI: {fileID: 886204975}
   hotbarGUI: {fileID: 399868580}
+  invSlotPrefab: {fileID: 1108103099452102128, guid: 107fb846b06d1064fa85d55dd13d3961, type: 3}
+  slotSize: 100
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +757,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

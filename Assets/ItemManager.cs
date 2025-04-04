@@ -10,7 +10,7 @@ public class ItemManager : MonoBehaviour
     public static List<Texture2D> itemTextures;
     public static List<string> itemNames;
     public static int numItems;
-    void Start()
+    void Awake()
     {
         itemTextures = visualItemTextures;
         itemNames = visualItemNames;
