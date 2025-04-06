@@ -218,6 +218,12 @@ public class Inventory : MonoBehaviour
         }
         if (invOpen){
             UpdateInventory();
+        }else{
+            for (int i = 0; i < invSize.x; i ++){
+                if (Input.GetKeyDown(KeyCode.Alpha1 + i)){
+                    hotbarSlot = i;
+                }
+            }
         }
     }
 }
