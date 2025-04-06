@@ -99,16 +99,17 @@ public class Inventory : MonoBehaviour
         if (Input.GetMouseButtonDown(0)){
             Vector2Int slot = GetSlotUnderMouse();
             if (slot.x != -1){
-                if (items[slot.x,slot.y].typeID == invDragItem.typeID){
-                    items[slot.x,slot.y].amount += invDragItem.amount;
-                    if (items[slot.x,slot.y].amount > maxStackSize){
-                        invDragItem.amount = items[slot.x,slot.y].amount - maxStackSize;
-                        items[slot.x,slot.y].amount -= invDragItem.amount;
+                ref Item item = ref items[slot.x,slot.y];
+                if (item.typeID == invDragItem.typeID){
+                    item.amount += invDragItem.amount;
+                    if (item.amount > maxStackSize){
+                        invDragItem.amount = item.amount - maxStackSize;
+                        item.amount -= invDragItem.amount;
                     }else{
                         invDragItem = new Item(-1,0);                    
                     }
                 }else{
-                    (invDragItem,items[slot.x,slot.y]) = (items[slot.x,slot.y],invDragItem);
+                    (invDragItem,item) = (item,invDragItem);
                 }
             }
         //if right click pressed, take half stack
@@ -118,9 +119,10 @@ public class Inventory : MonoBehaviour
                 if (invDragItem.typeID == -1){
                     invDragItem.typeID = items[slot.x,slot.y].typeID;
                     invDragItem.amount = Mathf.CeilToInt( items[slot.x,slot.y].amount / 2f);
-                    items[slot.x,slot.y].amount -= invDragItem.amount;
-                    if (items[slot.x,slot.y].amount == 0){
-                        items[slot.x,slot.y].typeID = -1;
+                    ref Item item = ref items[slot.x,slot.y];
+                    item.amount -= invDragItem.amount;
+                    if (item.amount == 0){
+                        item.typeID = -1;
                     }
                     placedOneSlots.Add(new(-1,-1));
 
@@ -136,16 +138,17 @@ public class Inventory : MonoBehaviour
             if (Input.GetMouseButton(1) && !(placedOneSlots.Count == 1 && placedOneSlots[0].x == -1)){
                 Vector2Int slot = GetSlotUnderMouse();
                 if (slot.x != -1){
+                    ref Item item = ref items[slot.x,slot.y];
                     //make sure have not placed an item in this slot already
                     if (!placedOneSlots.Contains(slot)){
                         //adding to an existing stack of this item
-                        if (items[slot.x,slot.y].typeID == invDragItem.typeID && items[slot.x,slot.y].amount < maxStackSize){
-                            items[slot.x,slot.y].amount ++;
+                        if (item.typeID == invDragItem.typeID && item.amount < maxStackSize){
+                            item.amount ++;
                             invDragItem.amount --;
                         //adding to an empty stack
-                        }else if (items[slot.x,slot.y].typeID == -1){
-                            items[slot.x,slot.y].typeID = invDragItem.typeID;
-                            items[slot.x,slot.y].amount ++;
+                        }else if (item.typeID == -1){
+                            item.typeID = invDragItem.typeID;
+                            item.amount ++;
                             invDragItem.amount --;
                         }
                         if (invDragItem.amount == 0){
