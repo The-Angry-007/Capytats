@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 public class Inventory : MonoBehaviour
@@ -9,6 +10,9 @@ public class Inventory : MonoBehaviour
     public GameObject invSlotPrefab;
     public float slotSize = 100f;
     public bool invOpen;
+    public GameObject slotDisplay;
+    int hotbarSlot = 0;
+    public float hotbarScrollThreshold;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,22 +23,16 @@ public class Inventory : MonoBehaviour
                 items[i,j] = new Item(-1,0);
             }
         }
-        //add a couple test items
-        items[0,0] = new Item(0,4);
-        items[1,0] = new Item(1,10);
+        for (int i = 0; i < 8; i ++){
+            items[i,3] = new Item(0,1);
+        }
+
         InitHotbar();
         UpdateHotbar();
         InitInventory();
 
     }
     void InitHotbar(){
-        //scale slot prefab
-        RectTransform r = invSlotPrefab.GetComponent<RectTransform>();
-        r.sizeDelta = new Vector2(slotSize,slotSize);
-        //also need to scale amount label
-        r = invSlotPrefab.transform.GetChild(0).GetComponent<RectTransform>();
-        r.sizeDelta = new Vector2(slotSize,slotSize);
-        
         //create duplicates for hotbar
         for (int i = 0; i < invSize.x; i ++){
             float width = slotSize * (invSize.x-1);
@@ -87,8 +85,10 @@ public class Inventory : MonoBehaviour
     }
     void UpdateHotbar(){
         for (int i = 0; i < invSize.x; i ++){
+            
+
             //get image component of inv slot
-            RawImage im = hotbarGUI.transform.GetChild(i).GetComponent<RawImage>();
+            RawImage im = hotbarGUI.transform.GetChild(i+1).GetComponent<RawImage>();
             //if slot has nothing in it, disable image
             if (items[i,invSize.y-1].typeID == -1){
                 im.enabled = false;
@@ -99,11 +99,25 @@ public class Inventory : MonoBehaviour
                 im.texture = ItemManager.itemTextures[items[i,invSize.y-1].typeID];
                 im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = items[i,invSize.y-1].amount.ToString();
             }
+            float scale = 80f;
+            if (i == hotbarSlot){
+                scale = 100f;
+            }
+            im.GetComponent<RectTransform>().sizeDelta = new Vector2(scale,scale);
+            im.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(scale,scale);
         }
+        Vector3 pos = new(-slotSize * invSize.x / 2f + slotSize * (hotbarSlot + 0.5f),0,0);
+        slotDisplay.GetComponent<RectTransform>().localPosition = pos;
     }
     // Update is called once per frame
     void Update()
     {
+        if (Input.mouseScrollDelta.y < -hotbarScrollThreshold){
+            hotbarSlot += 1;
+        }else if (Input.mouseScrollDelta.y > hotbarScrollThreshold){
+            hotbarSlot += invSize.x - 1;
+        }
+        hotbarSlot %= invSize.x;
         UpdateHotbar();
         if (Input.GetKeyDown(KeyCode.E)){
             if (invOpen){
