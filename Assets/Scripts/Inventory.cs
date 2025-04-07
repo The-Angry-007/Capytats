@@ -83,7 +83,11 @@ public class Inventory : MonoBehaviour
             //otherwise, set correct texture and update text label
             im.enabled = true;
             im.texture = ItemManager.itemTextures[item.typeID];
-            im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = item.amount.ToString();
+            string text = item.amount.ToString();
+            if (item.amount == 1){
+                text = "";
+            }
+            im.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = text;
         }
     }
     void UpdateInventory(){
