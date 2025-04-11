@@ -7,23 +7,11 @@ public class TreeObject : MonoBehaviour
     {
         
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        //Check for mouse click 
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit raycastHit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out raycastHit, 100f))
-            {
-                if (raycastHit.transform == transform)
-                {
-                    Debug.Log("Hello");
-                    Destroy(gameObject); 
-                }
-            }
+        if (GetComponent<BoxCollider2D>().OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition)) && Input.GetMouseButton(0)){
+            Destroy(gameObject);
         }   
     }
+
 }
