@@ -31,9 +31,8 @@ public class Inventory : MonoBehaviour
                 items[i,j] = new Item(-1,0);
             }
         }
-        for (int i = 0; i < 8; i ++){
-            items[i,3] = new Item(0,1);
-        }
+        items[0,0] = new Item(0,1);
+        items[1,0] = new Item(1,1);
 
         InitHotbar();
         UpdateHotbar();
