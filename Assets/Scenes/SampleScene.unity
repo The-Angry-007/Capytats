@@ -437,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   rb: {fileID: 584583228}
+  inventory: {fileID: 0}
 --- !u!212 &584583231
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -501,7 +502,7 @@ Transform:
   m_GameObject: {fileID: 584583227}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.923649, y: 0.67982584, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -893,9 +894,12 @@ MonoBehaviour:
   visualItemTextures:
   - {fileID: 2800000, guid: 6e82aa7bc3e11244398f513ee53f0b12, type: 3}
   - {fileID: 2800000, guid: 4a082d8a14640a44986233c2e1708e03, type: 3}
+  - {fileID: 2800000, guid: 61d8f4a090ada414a82ec51be7e54412, type: 3}
   visualItemNames:
   - Pen
   - Axe
+  - Twig
+  visualItemPrefab: {fileID: 5626901744910177039, guid: 8fce24db0f290f9488efb4d222476ddd, type: 3}
 --- !u!4 &1084819128
 Transform:
   m_ObjectHideFlags: 0
@@ -1149,7 +1153,7 @@ Transform:
   m_GameObject: {fileID: 1806124364}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.386964, y: -0.6392127, z: 0.07263889}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

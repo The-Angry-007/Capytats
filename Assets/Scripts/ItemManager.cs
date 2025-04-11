@@ -10,11 +10,14 @@ public class ItemManager : MonoBehaviour
     public static List<Texture2D> itemTextures;
     public static List<string> itemNames;
     public static int numItems;
+    public GameObject visualItemPrefab;
+    public static GameObject itemPrefab;
     void Awake()
     {
         itemTextures = visualItemTextures;
         itemNames = visualItemNames;
         numItems = itemTextures.Count;
+        itemPrefab = visualItemPrefab;
     }
 
     void Update()
