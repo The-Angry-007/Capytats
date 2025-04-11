@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
-    Item[,] items;
+    public Item[,] items;
     public Vector2Int invSize;
     public GameObject invGUI;
     public GameObject hotbarGUI;
@@ -232,4 +232,8 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+    public Item HoldingItem(){
+        return items[hotbarSlot,invSize.y-1];
+    }
+    
 }

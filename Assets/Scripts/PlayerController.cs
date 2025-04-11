@@ -6,10 +6,11 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     //deals with physics (collisions with pens, etc)
     public Rigidbody2D rb;
+    public Inventory inventory;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        inventory = GetComponent<Inventory>();
     }
 
     // Update is called once per frame
@@ -28,5 +29,8 @@ public class PlayerController : MonoBehaviour
         move.Normalize();
         move *= moveSpeed * Time.deltaTime;
         rb.MovePosition(move + transform.position);
+    }
+    public bool isHoldingAxe(){
+        return (inventory.HoldingItem().typeID == 1);
     }
 }
